@@ -1,0 +1,56 @@
+[
+    {
+      "id": 1,
+      "name": "Glock 8'mm",
+      "description": "Cute hand gun for military and personal usage",
+      "category": "hand gun",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Colt Revolver '12mm",
+      "description": "Powerful 8 round revolver for the power shooters",
+      "category": "hand gun",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    },
+    {
+      "id": 3,
+      "name": "AK-48 Riffle",
+      "category": "assault riffle",
+      "description": "Cute hand gun for military and personal usage",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    },
+    {
+      "id": 4,
+      "name": "Colt Revolver '12mm",
+      "description": "Powerful 8 round revolver for the power shooters",
+      "category": "hand gun",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    },
+    {
+      "id": 5,
+      "name": "Hand Grenade",
+      "description": "Cute hand gun for military and personal usage",
+      "category": "explosive",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    },
+    {
+      "id": 6,
+      "name": "Long Range Sniper",
+      "description": "Powerful 8 round revolver for the power shooters",
+      "category": "sniper riffle",
+      "qty": 6,
+      "image": "../../assets/imgs/tablet-pic.jpg",
+      "rating": 4.5
+    }
+  ]

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 
 import NavBar from "./components/navbar";
@@ -9,77 +10,84 @@ import StockFilter from "./components/stockfilter";
 
 export default class App extends Component {
   state = {
-    cartQty: 3,
+    cartQty: 0,
+    cartItemIds: [],
+    stocks: [],
+  };
+
+  componentDidMount() {
+    this.loadStocks();
+  }
+
+  loadStocks = () => {
+    let self = this;
+    axios
+      .get("datastore/stocks.json")
+      .then(function (res) {
+        self.state.stocks = res.data;
+        self.setState({ stocks: self.state.stocks });
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+
+  handleCartChange = (item) => {
+    if (this.state.cartItemIds.includes(item.id)) {
+      // remove
+      let index = this.state.cartItemIds.indexOf(item.id);
+      if (index > -1) {
+        this.state.cartItemIds.splice(index, 1);
+        this.state.cartQty--;
+      }
+    } else {
+      // add to cart
+      this.state.cartItemIds.push(item.id);
+      this.state.cartQty++;
+    }
+
+    this.setState({
+      cartItemIds: this.state.cartItemIds,
+      cartQty: this.state.cartQty,
+    });
+  };
+
+  onFilter = () => {
+    let name = document.getElementById("name").value.toLowerCase();
+    let cat = document.getElementById("category").value.toLowerCase();
+    this.state.stocks = this.state.stocks.filter((a) =>
+      //a.name.length > 0 ? a.name.toLowerCase().includes(name) : a.id > 0
+      cat != "change category" ? a.category.toLowerCase() == cat : a.id > 0
+    );
+    this.setState({ stocks: this.state.stocks });
+  };
+
+  clearFilter = () => {
+    this.loadStocks();
   };
 
   render() {
-    let stocks = [
-      {
-        id: 1,
-        name: "Glock 8'mm",
-        description: "Cute hand gun for military and personal usage",
-        category: "hand gun",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-      {
-        id: 2,
-        name: "Colt Revolver '12mm",
-        description: "Powerful 8 round revolver for the power shooters",
-        category: "hand gun",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-      {
-        id: 3,
-        name: "AK-48 Riffle",
-        category: "assault riffle",
-        description: "Cute hand gun for military and personal usage",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-      {
-        id: 4,
-        name: "Colt Revolver '12mm",
-        description: "Powerful 8 round revolver for the power shooters",
-        category: "hand gun",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-      {
-        id: 5,
-        name: "Glock 8'mm",
-        description: "Cute hand gun for military and personal usage",
-        category: "hand gun",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-      {
-        id: 6,
-        name: "Colt Revolver '12mm",
-        description: "Powerful 8 round revolver for the power shooters",
-        category: "hand gun",
-        qty: 6,
-        image: "../../assets/imgs/tablet-pic.jpg",
-        rating: 4.5,
-      },
-    ];
-
     return (
       <React.Fragment>
         <NavBar cartQty={this.state.cartQty} />
         <div className="container">
           <div className="row">
             <div className="col-md-3">
-              <StockFilter />
+              <StockFilter
+                onFilter={this.onFilter}
+                clearFilter={this.clearFilter}
+              />
             </div>
             <div className="col-md-9">
-              <StockList data={stocks} />
+              <StockList
+                data={this.state.stocks}
+                cartItemIds={this.state.cartItemIds}
+                onCartChange={this.handleCartChange}
+              />
             </div>
           </div>
         </div>
